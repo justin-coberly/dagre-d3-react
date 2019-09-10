@@ -34212,49 +34212,49 @@ var DagreGraph = /** @class */ (function (_super) {
             if (onNodeClick) {
                 svg.selectAll('g.node').on('click', function (id) {
                     var _node = g.node(id);
-                    _node.id = id;
-                    onNodeClick(_node);
+                    var _original = nodes.find(function (node) { return node.id === id; });
+                    onNodeClick(_node, _original);
                 });
             }
             if (onNodeRightClick) {
                 svg.selectAll('g.node').on('contextmenu', function (id) {
                     var _node = g.node(id);
-                    _node.id = id;
-                    onNodeRightClick(_node);
+                    var _original = nodes.find(function (node) { return node.id === id; });
+                    onNodeRightClick(_node, _original);
                 });
             }
             if (onNodeDoubleClick) {
                 svg.selectAll('g.node').on('dblclick', function (id) {
                     var _node = g.node(id);
-                    _node.id = id;
-                    onNodeDoubleClick(_node);
+                    var _original = nodes.find(function (node) { return node.id === id; });
+                    onNodeDoubleClick(_node, _original);
                 });
             }
             if (onRelationshipClick) {
                 svg.selectAll('g.edgeLabel').on('click', function (id) {
                     var _source = g.node(id.w);
-                    _source.id = id.w;
+                    var _original_source = nodes.find(function (node) { return node.id === id.w; });
                     var _target = g.node(id.v);
-                    _target.id = id.v;
-                    onRelationshipClick(_source, _target);
+                    var _original_target = nodes.find(function (node) { return node.id === id.v; });
+                    onRelationshipClick(_source, _original_source, _target, _original_target);
                 });
             }
             if (onRelationshipRightClick) {
                 svg.selectAll('g.edgeLabel').on('contextmenu', function (id) {
                     var _source = g.node(id.w);
-                    _source.id = id.w;
+                    var _original_source = nodes.find(function (node) { return node.id === id.w; });
                     var _target = g.node(id.v);
-                    _target.id = id.v;
-                    onRelationshipRightClick(_source, _target);
+                    var _original_target = nodes.find(function (node) { return node.id === id.v; });
+                    onRelationshipRightClick(_source, _original_source, _target, _original_target);
                 });
             }
             if (onRelationshipDoubleClick) {
                 svg.selectAll('g.edgeLabel').on('dblclick', function (id) {
                     var _source = g.node(id.w);
-                    _source.id = id.w;
+                    var _original_source = nodes.find(function (node) { return node.id === id.w; });
                     var _target = g.node(id.v);
-                    _target.id = id.v;
-                    onRelationshipDoubleClick(_source, _target);
+                    var _original_target = nodes.find(function (node) { return node.id === id.v; });
+                    onRelationshipDoubleClick(_source, _original_source, _target, _original_target);
                 });
             }
         };

@@ -111,51 +111,53 @@ class DagreGraph extends Component<GraphProps> {
 		if (onNodeClick) {
 			svg.selectAll('g.node').on('click', (id: string) => {
 				let _node = g.node(id)
-				_node.id = id
-				onNodeClick(_node)
+				let _original = nodes.find(node => node.id === id)
+				onNodeClick(_node, _original)
 			})
 		}
 
 		if (onNodeRightClick) {
 			svg.selectAll('g.node').on('contextmenu', (id: string) => {
 				let _node = g.node(id)
-				_node.id = id
-				onNodeRightClick(_node)
+				let _original = nodes.find(node => node.id === id)
+				onNodeRightClick(_node, _original)
 			})
 		}
 		if (onNodeDoubleClick) {
 			svg.selectAll('g.node').on('dblclick', (id: string) => {
 				let _node = g.node(id)
-				_node.id = id
-				onNodeDoubleClick(_node)
+				let _original = nodes.find(node => node.id === id)
+				onNodeDoubleClick(_node, _original)
 			})
 		}
 
 		if (onRelationshipClick) {
 			svg.selectAll('g.edgeLabel').on('click', (id: Relationship) => {
 				let _source = g.node(id.w)
-				_source.id = id.w
+				let _original_source = nodes.find(node => node.id === id.w)
+
 				let _target = g.node(id.v)
-				_target.id = id.v
-				onRelationshipClick(_source, _target)
+				let _original_target = nodes.find(node => node.id === id.v)
+				onRelationshipClick(_source, _original_source, _target, _original_target)
 			})
 		}
 		if (onRelationshipRightClick) {
 			svg.selectAll('g.edgeLabel').on('contextmenu', (id: Relationship) => {
 				let _source = g.node(id.w)
-				_source.id = id.w
+				let _original_source = nodes.find(node => node.id === id.w)
+
 				let _target = g.node(id.v)
-				_target.id = id.v
-				onRelationshipRightClick(_source, _target)
+				let _original_target = nodes.find(node => node.id === id.v)
+				onRelationshipRightClick(_source, _original_source, _target, _original_target)
 			})
 		}
 		if (onRelationshipDoubleClick) {
 			svg.selectAll('g.edgeLabel').on('dblclick', (id: Relationship) => {
 				let _source = g.node(id.w)
-				_source.id = id.w
+				let _original_source = nodes.find(node => node.id === id.w)
 				let _target = g.node(id.v)
-				_target.id = id.v
-				onRelationshipDoubleClick(_source, _target)
+				let _original_target = nodes.find(node => node.id === id.v)
+				onRelationshipDoubleClick(_source, _original_source, _target, _original_target)
 			})
 		}
 	}
