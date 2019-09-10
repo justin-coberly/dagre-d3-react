@@ -22,7 +22,9 @@
     "layout",
     "graph-layout",
     "react-dagre",
-    "react-dagre-d3"
+    "react-dagre-d3",
+    "neo4j",
+    "renderer"
   ],
   "author": "Justin Coberly",
   "license": "MIT",

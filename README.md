@@ -1,10 +1,14 @@
 # dagre-d3-react
 
-Dagre D3 Graph Renderer
+Dagre D3 Graph Renderer build on [DagreD3](https://github.com/dagrejs/dagre-d3)
 
 ## Browsers
 
 - support IE11+, Chrome, Firefox, Safari
+
+## Screenshots
+
+<img src="./screenshots/example.png" />
 
 ## Install
 
@@ -158,6 +162,29 @@ npm install --save dagre-d3-react
 npm install
 npm start
 ``` -->
+
+## Neo4j Example
+
+```javascript
+let data = await axios.post('/commit', {statements: [
+    {statement: "match (a)-[r1]->(b) return a, r1, b", resultDataContents: ['graph']}
+  ]
+})
+
+let dagreData = {
+  nodes: [],
+  links: []
+}
+
+data.data.results[0].data.forEach(row => {
+  row.graph.nodes.forEach(node => dagreData.nodes.push(row))
+  row.graph.relationships.forEach(node => dagreData.links.push(row))
+})
+
+return (
+  <DagreGraph nodes={dagreData.nodes} links={dagreData.links}>
+)
+```
 
 ## License
 
