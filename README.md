@@ -12,7 +12,7 @@ Dagre D3 Graph Renderer build on [DagreD3](https://github.com/dagrejs/dagre-d3)
 
 ## Install
 
-<!-- [![rc-progress](https://nodei.co/npm/rc-progress.png)](https://npmjs.org/package/rc-progress) -->
+[![dagre-d3-react](https://nodei.co/npm/dagre-d3-react.png)](https://www.npmjs.com/package/dagre-d3-react)
 
 ## Usage
 
