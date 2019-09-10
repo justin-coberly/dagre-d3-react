@@ -23,7 +23,7 @@ ReactDOM.render(
 	<div>
 		<DagreGraph
 			nodes={nodes}
-			links={graph.simple.links}
+			links={links}
 			rankdir='LR'
 			width='500'
 			height='500'
