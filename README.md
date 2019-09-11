@@ -225,7 +225,7 @@ let data = {
       labelType: "html"
     },
     {
-      id: "2"
+      id: "2",
       label: "<h3>Node 2</h3>",
       labelType: "html"
     }
