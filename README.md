@@ -1,6 +1,6 @@
 # dagre-d3-react
 
-Dagre D3 Graph Renderer build on [DagreD3](https://github.com/dagrejs/dagre-d3)
+Dagre D3 Graph Renderer built on [DagreD3](https://github.com/dagrejs/dagre-d3)
 
 ## Browsers
 
