@@ -19,10 +19,12 @@ interface GraphProps {
 }
 declare type rankdir = 'TB' | 'BT' | 'LR' | 'RL';
 declare type shapes = 'rect' | 'circle' | 'ellipse';
+declare type labelType = 'html' | 'svg' | 'string';
 declare type d3Node = {
     id: string;
     label: string;
     class?: string;
+    labelType?: labelType;
 };
 declare type d3Link = {
     source: string;
@@ -41,6 +43,7 @@ declare class DagreGraph extends Component<GraphProps> {
     };
     componentDidMount(): void;
     componentDidUpdate(): void;
+    _getNodeData(id: any): d3Node | undefined;
     _drawChart: () => void;
     render(): JSX.Element;
 }

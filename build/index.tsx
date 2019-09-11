@@ -34193,7 +34193,9 @@ var DagreGraph = /** @class */ (function (_super) {
         _this._drawChart = function () {
             var _a = _this.props, nodes = _a.nodes, links = _a.links, zoomable = _a.zoomable, fitBoundaries = _a.fitBoundaries, rankdir = _a.rankdir, animate = _a.animate, shape = _a.shape, onNodeClick = _a.onNodeClick, onNodeRightClick = _a.onNodeRightClick, onNodeDoubleClick = _a.onNodeDoubleClick, onRelationshipClick = _a.onRelationshipClick, onRelationshipRightClick = _a.onRelationshipRightClick, onRelationshipDoubleClick = _a.onRelationshipDoubleClick;
             var g = new dagreD3.graphlib.Graph().setGraph({ rankdir: rankdir });
-            nodes.forEach(function (node) { return g.setNode(node.id, { label: node.label, class: node.class || '' }); });
+            nodes.forEach(function (node) {
+                return g.setNode(node.id, { label: node.label, class: node.class || '', labelType: node.labelType || 'string' });
+            });
             if (shape) {
                 g.nodes().forEach(function (v) { return (g.node(v).shape = shape); });
             }
@@ -34219,49 +34221,64 @@ var DagreGraph = /** @class */ (function (_super) {
             if (onNodeClick) {
                 svg.selectAll('g.node').on('click', function (id) {
                     var _node = g.node(id);
-                    var _original = nodes.find(function (node) { return node.id === id; });
-                    onNodeClick(_node, _original);
+                    var _original = _this._getNodeData(id);
+                    onNodeClick({ d3node: _node, original: _original });
                 });
             }
             if (onNodeRightClick) {
                 svg.selectAll('g.node').on('contextmenu', function (id) {
                     var _node = g.node(id);
-                    var _original = nodes.find(function (node) { return node.id === id; });
-                    onNodeRightClick(_node, _original);
+                    var _original = _this._getNodeData(id);
+                    onNodeRightClick({ d3node: _node, original: _original });
                 });
             }
             if (onNodeDoubleClick) {
                 svg.selectAll('g.node').on('dblclick', function (id) {
                     var _node = g.node(id);
-                    var _original = nodes.find(function (node) { return node.id === id; });
-                    onNodeDoubleClick(_node, _original);
+                    var _original = _this._getNodeData(id);
+                    onNodeDoubleClick({ d3node: _node, original: _original });
                 });
             }
             if (onRelationshipClick) {
                 svg.selectAll('g.edgeLabel').on('click', function (id) {
                     var _source = g.node(id.w);
-                    var _original_source = nodes.find(function (node) { return node.id === id.w; });
+                    var _original_source = _this._getNodeData(id.w);
                     var _target = g.node(id.v);
-                    var _original_target = nodes.find(function (node) { return node.id === id.v; });
-                    onRelationshipClick(_source, _original_source, _target, _original_target);
+                    var _original_target = _this._getNodeData(id.v);
+                    onRelationshipClick({
+                        d3source: _source,
+                        source: _original_source,
+                        d3target: _target,
+                        target: _original_target
+                    });
                 });
             }
             if (onRelationshipRightClick) {
                 svg.selectAll('g.edgeLabel').on('contextmenu', function (id) {
                     var _source = g.node(id.w);
-                    var _original_source = nodes.find(function (node) { return node.id === id.w; });
+                    var _original_source = _this._getNodeData(id.w);
                     var _target = g.node(id.v);
-                    var _original_target = nodes.find(function (node) { return node.id === id.v; });
-                    onRelationshipRightClick(_source, _original_source, _target, _original_target);
+                    var _original_target = _this._getNodeData(id.v);
+                    onRelationshipRightClick({
+                        d3source: _source,
+                        source: _original_source,
+                        d3target: _target,
+                        target: _original_target
+                    });
                 });
             }
             if (onRelationshipDoubleClick) {
                 svg.selectAll('g.edgeLabel').on('dblclick', function (id) {
                     var _source = g.node(id.w);
-                    var _original_source = nodes.find(function (node) { return node.id === id.w; });
+                    var _original_source = _this._getNodeData(id.w);
                     var _target = g.node(id.v);
-                    var _original_target = nodes.find(function (node) { return node.id === id.v; });
-                    onRelationshipDoubleClick(_source, _original_source, _target, _original_target);
+                    var _original_target = _this._getNodeData(id.v);
+                    onRelationshipDoubleClick({
+                        d3source: _source,
+                        source: _original_source,
+                        d3target: _target,
+                        target: _original_target
+                    });
                 });
             }
         };
@@ -34272,6 +34289,9 @@ var DagreGraph = /** @class */ (function (_super) {
     };
     DagreGraph.prototype.componentDidUpdate = function () {
         this._drawChart();
+    };
+    DagreGraph.prototype._getNodeData = function (id) {
+        return this.props.nodes.find(function (node) { return node.id === id; });
     };
     DagreGraph.prototype.render = function () {
         return (React__default.createElement("svg", { width: this.props.width, height: this.props.height, ref: this.svg, className: this.props.className || '' },

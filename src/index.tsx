@@ -25,7 +25,7 @@ type shapes = 'rect' | 'circle' | 'ellipse'
 type labelType = 'html' | 'svg' | 'string'
 
 type d3Node = {
-	id: string
+	id: any
 	label: string
 	class?: string
 	labelType?: labelType
@@ -37,8 +37,8 @@ type d3Link = {
 	label?: string
 }
 type Relationship = {
-	v: string
-	w: string
+	v: any
+	w: any
 }
 
 class DagreGraph extends Component<GraphProps> {
@@ -56,6 +56,10 @@ class DagreGraph extends Component<GraphProps> {
 	}
 	componentDidUpdate() {
 		this._drawChart()
+	}
+
+	_getNodeData(id: any) {
+		return this.props.nodes.find(node => node.id === id)
 	}
 
 	_drawChart = () => {
@@ -113,55 +117,70 @@ class DagreGraph extends Component<GraphProps> {
 		}
 
 		if (onNodeClick) {
-			svg.selectAll('g.node').on('click', (id: string) => {
+			svg.selectAll('g.node').on('click', (id: any) => {
 				let _node = g.node(id)
-				let _original = nodes.find(node => node.id === id)
-				onNodeClick(_node, _original)
+				let _original = this._getNodeData(id)
+				onNodeClick({ d3node: _node, original: _original })
 			})
 		}
 
 		if (onNodeRightClick) {
-			svg.selectAll('g.node').on('contextmenu', (id: string) => {
+			svg.selectAll('g.node').on('contextmenu', (id: any) => {
 				let _node = g.node(id)
-				let _original = nodes.find(node => node.id === id)
-				onNodeRightClick(_node, _original)
+				let _original = this._getNodeData(id)
+				onNodeRightClick({ d3node: _node, original: _original })
 			})
 		}
 		if (onNodeDoubleClick) {
-			svg.selectAll('g.node').on('dblclick', (id: string) => {
+			svg.selectAll('g.node').on('dblclick', (id: any) => {
 				let _node = g.node(id)
-				let _original = nodes.find(node => node.id === id)
-				onNodeDoubleClick(_node, _original)
+				let _original = this._getNodeData(id)
+				onNodeDoubleClick({ d3node: _node, original: _original })
 			})
 		}
 
 		if (onRelationshipClick) {
 			svg.selectAll('g.edgeLabel').on('click', (id: Relationship) => {
 				let _source = g.node(id.w)
-				let _original_source = nodes.find(node => node.id === id.w)
+				let _original_source = this._getNodeData(id.w)
 
 				let _target = g.node(id.v)
-				let _original_target = nodes.find(node => node.id === id.v)
-				onRelationshipClick(_source, _original_source, _target, _original_target)
+				let _original_target = this._getNodeData(id.v)
+				onRelationshipClick({
+					d3source: _source,
+					source: _original_source,
+					d3target: _target,
+					target: _original_target
+				})
 			})
 		}
 		if (onRelationshipRightClick) {
 			svg.selectAll('g.edgeLabel').on('contextmenu', (id: Relationship) => {
 				let _source = g.node(id.w)
-				let _original_source = nodes.find(node => node.id === id.w)
+				let _original_source = this._getNodeData(id.w)
 
 				let _target = g.node(id.v)
-				let _original_target = nodes.find(node => node.id === id.v)
-				onRelationshipRightClick(_source, _original_source, _target, _original_target)
+				let _original_target = this._getNodeData(id.v)
+				onRelationshipRightClick({
+					d3source: _source,
+					source: _original_source,
+					d3target: _target,
+					target: _original_target
+				})
 			})
 		}
 		if (onRelationshipDoubleClick) {
 			svg.selectAll('g.edgeLabel').on('dblclick', (id: Relationship) => {
 				let _source = g.node(id.w)
-				let _original_source = nodes.find(node => node.id === id.w)
+				let _original_source = this._getNodeData(id.w)
 				let _target = g.node(id.v)
-				let _original_target = nodes.find(node => node.id === id.v)
-				onRelationshipDoubleClick(_source, _original_source, _target, _original_target)
+				let _original_target = this._getNodeData(id.v)
+				onRelationshipDoubleClick({
+					d3source: _source,
+					source: _original_source,
+					d3target: _target,
+					target: _original_target
+				})
 			})
 		}
 	}
