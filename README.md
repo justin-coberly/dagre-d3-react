@@ -111,12 +111,6 @@ ReactDOM.render(
       <td>SVG node shape: 'rect' | 'circle' | 'ellipse'</td>
     </tr>
     <tr>
-      <td>labelType</td>
-      <td>string</td>
-      <td>rect</td>
-      <td>Label type: 'string' | 'html' | 'svg'</td>
-    </tr>
-    <tr>
       <td>className</td>
       <td>string</td>
       <td></td>
