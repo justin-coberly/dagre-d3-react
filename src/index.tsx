@@ -22,11 +22,13 @@ interface GraphProps {
 }
 type rankdir = 'TB' | 'BT' | 'LR' | 'RL'
 type shapes = 'rect' | 'circle' | 'ellipse'
+type labelType = 'html' | 'svg' | 'string'
 
 type d3Node = {
 	id: string
 	label: string
 	class?: string
+	labelType?: labelType
 }
 type d3Link = {
 	source: string
@@ -74,7 +76,9 @@ class DagreGraph extends Component<GraphProps> {
 		} = this.props
 		let g = new dagreD3.graphlib.Graph().setGraph({ rankdir })
 
-		nodes.forEach(node => g.setNode(node.id, { label: node.label, class: node.class || '' }))
+		nodes.forEach(node =>
+			g.setNode(node.id, { label: node.label, class: node.class || '', labelType: node.labelType || 'string' })
+		)
 
 		if (shape) {
 			g.nodes().forEach(v => (g.node(v).shape = shape))

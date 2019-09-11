@@ -30,7 +30,9 @@ ReactDOM.render(
 			animate={1000}
 			shape='circle'
 			fitBoundaries
-			zoomable
+      zoomable
+      onNodeClick={(d3Node, node) => console.log(d3Node, node)}
+      onRelationshipClick={(d3Link_source, source, d3Link_target, target) => console.log(d3Link_source, source, d3Link_target, target))}
 		/>
 	</div>,
 	container
@@ -149,6 +151,26 @@ ReactDOM.render(
     </tr>
   </tbody>
 </table>
+
+### Node Object
+
+```javascript
+{
+  id: string,
+	label: string,
+	class?: string,
+	labelType?: 'html' | 'svg' | 'string'
+}
+```
+
+### Link Object
+
+```javascript
+  source: any
+	target: any
+	class?: string
+	label?: string
+```
 
 ## Installation
 
