@@ -102,16 +102,22 @@ ReactDOM.render(
       <td>Enables animation with duration in milliseconds</td>
     </tr>
     <tr>
-      <td>className</td>
-      <td>string</td>
-      <td></td>
-      <td>Assign custom class to svg</td>
-    </tr>
-    <tr>
       <td>shape</td>
       <td>string</td>
       <td>rect</td>
       <td>SVG node shape: 'rect' | 'circle' | 'ellipse'</td>
+    </tr>
+    <tr>
+      <td>labelType</td>
+      <td>string</td>
+      <td>rect</td>
+      <td>Label type: 'string' | 'html' | 'svg'</td>
+    </tr>
+    <tr>
+      <td>className</td>
+      <td>string</td>
+      <td></td>
+      <td>Assign custom class to svg element</td>
     </tr>
     <tr>
       <td>onNodeClick</td>
@@ -206,6 +212,30 @@ data.data.results[0].data.forEach(row => {
 return (
   <DagreGraph nodes={dagreData.nodes} links={dagreData.links}>
 )
+```
+
+### Node Render HTML
+
+```javascript
+let data = {
+  nodes: [
+    {
+      id: "1",
+      label: "<h3>Node 1</h3>",
+      labelType: "html"
+    },
+    {
+      id: "2"
+      label: "<h3>Node 2</h3>",
+      labelType: "html"
+    }
+  ],
+  links: [
+    { source: '1', target: '2', label: 'TO' },
+  ]
+}
+
+<DagreGraph nodes={dagreData.nodes} links={dagreData.links}>
 ```
 
 ## License
