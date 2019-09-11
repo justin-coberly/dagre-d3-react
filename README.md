@@ -30,9 +30,9 @@ ReactDOM.render(
 			animate={1000}
 			shape='circle'
 			fitBoundaries
-      zoomable
-      onNodeClick={(d3Node, node) => console.log(d3Node, node)}
-      onRelationshipClick={(d3Link_source, source, d3Link_target, target) => console.log(d3Link_source, source, d3Link_target, target))}
+			zoomable
+			onNodeClick={e => console.log(e)}
+			onRelationshipClick={e => console.log(e)}
 		/>
 	</div>,
 	container
