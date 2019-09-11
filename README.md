@@ -175,10 +175,12 @@ ReactDOM.render(
 ### Link Object
 
 ```javascript
+{
   source: any
 	target: any
 	class?: string
-	label?: string
+  label?: string
+}
 ```
 
 ## Installation
