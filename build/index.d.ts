@@ -21,7 +21,7 @@ declare type rankdir = 'TB' | 'BT' | 'LR' | 'RL';
 declare type shapes = 'rect' | 'circle' | 'ellipse';
 declare type labelType = 'html' | 'svg' | 'string';
 declare type d3Node = {
-    id: string;
+    id: any;
     label: string;
     class?: string;
     labelType?: labelType;
