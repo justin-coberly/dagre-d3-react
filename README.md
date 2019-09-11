@@ -214,7 +214,7 @@ return (
 )
 ```
 
-### Node Render HTML
+## Node Render HTML
 
 ```javascript
 let data = {
