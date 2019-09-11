@@ -42,6 +42,23 @@ ReactDOM.render(
 )
 ```
 
+## Example CSS Styles
+
+```css
+.nodes {
+	fill: darkgray;
+}
+.nodes text {
+	fill: white;
+}
+
+path {
+	stroke: black;
+	fill: black;
+	stroke-width: 1.5px;
+}
+```
+
 ## API
 
 ### props
