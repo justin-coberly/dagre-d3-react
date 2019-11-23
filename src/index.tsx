@@ -141,11 +141,11 @@ class DagreGraph extends Component<GraphProps> {
 
 		if (onRelationshipClick) {
 			svg.selectAll('g.edgeLabel').on('click', (id: Relationship) => {
-				let _source = g.node(id.w)
-				let _original_source = this._getNodeData(id.w)
+				let _source = g.node(id.v)
+				let _original_source = this._getNodeData(id.v)
 
-				let _target = g.node(id.v)
-				let _original_target = this._getNodeData(id.v)
+				let _target = g.node(id.w)
+				let _original_target = this._getNodeData(id.w)
 				onRelationshipClick({
 					d3source: _source,
 					source: _original_source,
@@ -156,11 +156,11 @@ class DagreGraph extends Component<GraphProps> {
 		}
 		if (onRelationshipRightClick) {
 			svg.selectAll('g.edgeLabel').on('contextmenu', (id: Relationship) => {
-				let _source = g.node(id.w)
-				let _original_source = this._getNodeData(id.w)
+				let _source = g.node(id.v)
+				let _original_source = this._getNodeData(id.v)
 
-				let _target = g.node(id.v)
-				let _original_target = this._getNodeData(id.v)
+				let _target = g.node(id.w)
+				let _original_target = this._getNodeData(id.w)
 				onRelationshipRightClick({
 					d3source: _source,
 					source: _original_source,
@@ -171,10 +171,10 @@ class DagreGraph extends Component<GraphProps> {
 		}
 		if (onRelationshipDoubleClick) {
 			svg.selectAll('g.edgeLabel').on('dblclick', (id: Relationship) => {
-				let _source = g.node(id.w)
-				let _original_source = this._getNodeData(id.w)
-				let _target = g.node(id.v)
-				let _original_target = this._getNodeData(id.v)
+				let _source = g.node(id.v)
+				let _original_source = this._getNodeData(id.v)
+				let _target = g.node(id.w)
+				let _original_target = this._getNodeData(id.w)
 				onRelationshipDoubleClick({
 					d3source: _source,
 					source: _original_source,
