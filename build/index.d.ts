@@ -10,12 +10,8 @@ interface GraphProps {
     animate?: number;
     className?: string;
     shape?: shapes;
-    onNodeClick: Function;
-    onNodeRightClick: Function;
-    onNodeDoubleClick: Function;
-    onRelationshipClick: Function;
-    onRelationshipDoubleClick: Function;
-    onRelationshipRightClick: Function;
+    onNodeClick?: Function;
+    onRelationshipClick?: Function;
 }
 declare type rankdir = 'TB' | 'BT' | 'LR' | 'RL';
 declare type shapes = 'rect' | 'circle' | 'ellipse';

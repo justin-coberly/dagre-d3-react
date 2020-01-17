@@ -27834,7 +27834,6 @@ function zoom() {
 
 var d3 = /*#__PURE__*/Object.freeze({
     version: version$2,
-    path: path,
     bisect: bisectRight,
     bisectRight: bisectRight,
     bisectLeft: bisectLeft,
@@ -27866,6 +27865,10 @@ var d3 = /*#__PURE__*/Object.freeze({
     transpose: transpose,
     variance: variance,
     zip: zip,
+    axisTop: axisTop,
+    axisRight: axisRight,
+    axisBottom: axisBottom,
+    axisLeft: axisLeft,
     brush: brush,
     brushX: brushX,
     brushY: brushY,
@@ -28035,10 +28038,7 @@ var d3 = /*#__PURE__*/Object.freeze({
     interpolateCubehelix: cubehelix$2,
     interpolateCubehelixLong: cubehelixLong,
     quantize: quantize,
-    axisTop: axisTop,
-    axisRight: axisRight,
-    axisBottom: axisBottom,
-    axisLeft: axisLeft,
+    path: path,
     polygonArea: area$1,
     polygonCentroid: centroid$1,
     polygonHull: hull,
@@ -34191,11 +34191,9 @@ var DagreGraph = /** @class */ (function (_super) {
         _this.svg = React.createRef();
         _this.innerG = React.createRef();
         _this._drawChart = function () {
-            var _a = _this.props, nodes = _a.nodes, links = _a.links, zoomable = _a.zoomable, fitBoundaries = _a.fitBoundaries, rankdir = _a.rankdir, animate = _a.animate, shape = _a.shape, onNodeClick = _a.onNodeClick, onNodeRightClick = _a.onNodeRightClick, onNodeDoubleClick = _a.onNodeDoubleClick, onRelationshipClick = _a.onRelationshipClick, onRelationshipRightClick = _a.onRelationshipRightClick, onRelationshipDoubleClick = _a.onRelationshipDoubleClick;
+            var _a = _this.props, nodes = _a.nodes, links = _a.links, zoomable = _a.zoomable, fitBoundaries = _a.fitBoundaries, rankdir = _a.rankdir, animate = _a.animate, shape = _a.shape, onNodeClick = _a.onNodeClick, onRelationshipClick = _a.onRelationshipClick;
             var g = new dagreD3.graphlib.Graph().setGraph({ rankdir: rankdir });
-            nodes.forEach(function (node) {
-                return g.setNode(node.id, { label: node.label, class: node.class || '', labelType: node.labelType || 'string' });
-            });
+            nodes.forEach(function (node) { return g.setNode(node.id, { label: node.label, class: node.class || '', labelType: node.labelType || 'string' }); });
             if (shape) {
                 g.nodes().forEach(function (v) { return (g.node(v).shape = shape); });
             }
@@ -34214,9 +34212,24 @@ var DagreGraph = /** @class */ (function (_super) {
             }
             render(inner, g);
             if (fitBoundaries) {
-                var _initial_scale = 0.5;
-                svg.call(zoom.transform, identity$c.translate((svg.attr('width') - g.graph().width * _initial_scale) / 2, 20).scale(_initial_scale));
-                svg.attr('height', g.graph().height * _initial_scale + 180);
+                //@BertCh recommendation for fitting boundaries
+                var bounds = inner.node().getBBox();
+                var parent_1 = inner.node().parentElement;
+                var fullWidth = parent_1.clientWidth || parent_1.parentNode.clientWidth;
+                var fullHeight = parent_1.clientHeight || parent_1.parentNode.clientHeight;
+                var width = bounds.width;
+                var height = bounds.height;
+                var midX = bounds.x + width / 2;
+                var midY = bounds.y + height / 2;
+                if (width === 0 || height === 0)
+                    return; // nothing to fit
+                var scale = 0.9 / Math.max(width / fullWidth, height / fullHeight);
+                var translate = [fullWidth / 2 - scale * midX, fullHeight / 2 - scale * midY];
+                var transform = identity$c.translate(translate[0], translate[1]).scale(scale);
+                svg
+                    .transition()
+                    .duration(animate || 0) // milliseconds
+                    .call(zoom.transform, transform);
             }
             if (onNodeClick) {
                 svg.selectAll('g.node').on('click', function (id) {
@@ -34225,55 +34238,13 @@ var DagreGraph = /** @class */ (function (_super) {
                     onNodeClick({ d3node: _node, original: _original });
                 });
             }
-            if (onNodeRightClick) {
-                svg.selectAll('g.node').on('contextmenu', function (id) {
-                    var _node = g.node(id);
-                    var _original = _this._getNodeData(id);
-                    onNodeRightClick({ d3node: _node, original: _original });
-                });
-            }
-            if (onNodeDoubleClick) {
-                svg.selectAll('g.node').on('dblclick', function (id) {
-                    var _node = g.node(id);
-                    var _original = _this._getNodeData(id);
-                    onNodeDoubleClick({ d3node: _node, original: _original });
-                });
-            }
             if (onRelationshipClick) {
                 svg.selectAll('g.edgeLabel').on('click', function (id) {
-                    var _source = g.node(id.w);
-                    var _original_source = _this._getNodeData(id.w);
-                    var _target = g.node(id.v);
-                    var _original_target = _this._getNodeData(id.v);
+                    var _source = g.node(id.v);
+                    var _original_source = _this._getNodeData(id.v);
+                    var _target = g.node(id.w);
+                    var _original_target = _this._getNodeData(id.w);
                     onRelationshipClick({
-                        d3source: _source,
-                        source: _original_source,
-                        d3target: _target,
-                        target: _original_target
-                    });
-                });
-            }
-            if (onRelationshipRightClick) {
-                svg.selectAll('g.edgeLabel').on('contextmenu', function (id) {
-                    var _source = g.node(id.w);
-                    var _original_source = _this._getNodeData(id.w);
-                    var _target = g.node(id.v);
-                    var _original_target = _this._getNodeData(id.v);
-                    onRelationshipRightClick({
-                        d3source: _source,
-                        source: _original_source,
-                        d3target: _target,
-                        target: _original_target
-                    });
-                });
-            }
-            if (onRelationshipDoubleClick) {
-                svg.selectAll('g.edgeLabel').on('dblclick', function (id) {
-                    var _source = g.node(id.w);
-                    var _original_source = _this._getNodeData(id.w);
-                    var _target = g.node(id.v);
-                    var _original_target = _this._getNodeData(id.v);
-                    onRelationshipDoubleClick({
                         d3source: _source,
                         source: _original_source,
                         d3target: _target,

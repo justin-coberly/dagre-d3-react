@@ -121,7 +121,7 @@ path {
     <tr>
       <td>shape</td>
       <td>string</td>
-      <td>rect</td>
+      <td>circle</td>
       <td>SVG node shape: 'rect' | 'circle' | 'ellipse'</td>
     </tr>
     <tr>
@@ -166,19 +166,6 @@ path {
   label?: string
 }
 ```
-
-## Installation
-
-```
-npm install --save dagre-d3-react
-```
-
-<!-- ## Development
-
-```
-npm install
-npm start
-``` -->
 
 ## Neo4j Example
 
