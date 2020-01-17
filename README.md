@@ -2,9 +2,6 @@
 
 Dagre D3 Graph Renderer built on [DagreD3](https://github.com/dagrejs/dagre-d3)
 
-**_This is under active development as of 9/10/19_**<br>
-There may be breaking changes and I will update the README accordingly.
-
 ## Browsers
 
 - support IE11+, Chrome, Firefox, Safari
@@ -140,34 +137,10 @@ path {
       <td>Callback on node click</td>
     </tr>
     <tr>
-      <td>onNodeRightClick</td>
-      <td>Function</td>
-      <td></td>
-      <td>Callback on node right click</td>
-    </tr>
-    <tr>
-      <td>onNodeDoubleClick</td>
-      <td>Function</td>
-      <td></td>
-      <td>Callback on node double click</td>
-    </tr>
-    <tr>
       <td>onRelationshipClick</td>
       <td>Function</td>
       <td></td>
       <td>Callback relationship click (specifically the label)</td>
-    </tr>
-    <tr>
-      <td>onRelationshipRightClick</td>
-      <td>Function</td>
-      <td></td>
-      <td>Callback relationship right click (specifically the label)</td>
-    </tr>
-    <tr>
-      <td>onRelationshipDoubleClick</td>
-      <td>Function</td>
-      <td></td>
-      <td>Callback relationship double click (specifically the label)</td>
     </tr>
   </tbody>
 </table>

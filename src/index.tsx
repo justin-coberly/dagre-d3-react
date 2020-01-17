@@ -13,12 +13,8 @@ interface GraphProps {
 	animate?: number
 	className?: string
 	shape?: shapes
-	onNodeClick: Function
-	onNodeRightClick: Function
-	onNodeDoubleClick: Function
-	onRelationshipClick: Function
-	onRelationshipDoubleClick: Function
-	onRelationshipRightClick: Function
+	onNodeClick?: Function
+	onRelationshipClick?: Function
 }
 type rankdir = 'TB' | 'BT' | 'LR' | 'RL'
 type shapes = 'rect' | 'circle' | 'ellipse'
@@ -63,26 +59,10 @@ class DagreGraph extends Component<GraphProps> {
 	}
 
 	_drawChart = () => {
-		let {
-			nodes,
-			links,
-			zoomable,
-			fitBoundaries,
-			rankdir,
-			animate,
-			shape,
-			onNodeClick,
-			onNodeRightClick,
-			onNodeDoubleClick,
-			onRelationshipClick,
-			onRelationshipRightClick,
-			onRelationshipDoubleClick
-		} = this.props
+		const { nodes, links, zoomable, fitBoundaries, rankdir, animate, shape, onNodeClick, onRelationshipClick } = this.props
 		let g = new dagreD3.graphlib.Graph().setGraph({ rankdir })
 
-		nodes.forEach(node =>
-			g.setNode(node.id, { label: node.label, class: node.class || '', labelType: node.labelType || 'string' })
-		)
+		nodes.forEach(node => g.setNode(node.id, { label: node.label, class: node.class || '', labelType: node.labelType || 'string' }))
 
 		if (shape) {
 			g.nodes().forEach(v => (g.node(v).shape = shape))
@@ -108,12 +88,24 @@ class DagreGraph extends Component<GraphProps> {
 		render(inner, g)
 
 		if (fitBoundaries) {
-			let _initial_scale = 0.5
-			svg.call(
-				zoom.transform,
-				d3.zoomIdentity.translate((svg.attr('width') - g.graph().width * _initial_scale) / 2, 20).scale(_initial_scale)
-			)
-			svg.attr('height', g.graph().height * _initial_scale + 180)
+			//@BertCh recommendation for fitting boundaries
+			const bounds = inner.node().getBBox()
+			const parent = inner.node().parentElement
+			const fullWidth = parent.clientWidth || parent.parentNode.clientWidth
+			const fullHeight = parent.clientHeight || parent.parentNode.clientHeight
+			const width = bounds.width
+			const height = bounds.height
+			const midX = bounds.x + width / 2
+			const midY = bounds.y + height / 2
+			if (width === 0 || height === 0) return // nothing to fit
+			var scale = 0.9 / Math.max(width / fullWidth, height / fullHeight)
+			var translate = [fullWidth / 2 - scale * midX, fullHeight / 2 - scale * midY]
+			var transform = d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale)
+
+			svg
+				.transition()
+				.duration(animate || 0) // milliseconds
+				.call(zoom.transform, transform)
 		}
 
 		if (onNodeClick) {
@@ -123,22 +115,6 @@ class DagreGraph extends Component<GraphProps> {
 				onNodeClick({ d3node: _node, original: _original })
 			})
 		}
-
-		if (onNodeRightClick) {
-			svg.selectAll('g.node').on('contextmenu', (id: any) => {
-				let _node = g.node(id)
-				let _original = this._getNodeData(id)
-				onNodeRightClick({ d3node: _node, original: _original })
-			})
-		}
-		if (onNodeDoubleClick) {
-			svg.selectAll('g.node').on('dblclick', (id: any) => {
-				let _node = g.node(id)
-				let _original = this._getNodeData(id)
-				onNodeDoubleClick({ d3node: _node, original: _original })
-			})
-		}
-
 		if (onRelationshipClick) {
 			svg.selectAll('g.edgeLabel').on('click', (id: Relationship) => {
 				let _source = g.node(id.v)
@@ -147,35 +123,6 @@ class DagreGraph extends Component<GraphProps> {
 				let _target = g.node(id.w)
 				let _original_target = this._getNodeData(id.w)
 				onRelationshipClick({
-					d3source: _source,
-					source: _original_source,
-					d3target: _target,
-					target: _original_target
-				})
-			})
-		}
-		if (onRelationshipRightClick) {
-			svg.selectAll('g.edgeLabel').on('contextmenu', (id: Relationship) => {
-				let _source = g.node(id.v)
-				let _original_source = this._getNodeData(id.v)
-
-				let _target = g.node(id.w)
-				let _original_target = this._getNodeData(id.w)
-				onRelationshipRightClick({
-					d3source: _source,
-					source: _original_source,
-					d3target: _target,
-					target: _original_target
-				})
-			})
-		}
-		if (onRelationshipDoubleClick) {
-			svg.selectAll('g.edgeLabel').on('dblclick', (id: Relationship) => {
-				let _source = g.node(id.v)
-				let _original_source = this._getNodeData(id.v)
-				let _target = g.node(id.w)
-				let _original_target = this._getNodeData(id.w)
-				onRelationshipDoubleClick({
 					d3source: _source,
 					source: _original_source,
 					d3target: _target,
