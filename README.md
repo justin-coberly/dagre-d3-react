@@ -16,6 +16,10 @@ Dagre D3 Graph Renderer built on [DagreD3](https://github.com/dagrejs/dagre-d3)
 
 ## Usage
 
+**_Update_**
+rankdir prop has been updated in version 0.2.0
+It has now been replaced with `config` and the new options can be found [here](https://github.com/dagrejs/dagre/wiki#configuring-the-layout)
+
 ```jsx
 import DagreGraph from 'dagre-d3-react'
 
@@ -24,7 +28,11 @@ ReactDOM.render(
 		<DagreGraph
 			nodes={nodes}
 			links={links}
-			rankdir='LR'
+			options={{
+				rankdir: 'LR',
+				align: 'UL',
+				ranker: 'tight-tree'
+			}}
 			width='500'
 			height='500'
 			animate={1000}
@@ -107,10 +115,10 @@ path {
       <td>Default width of svg</td>
     </tr>
     <tr>
-      <td>rankdir</td>
-      <td>string</td>
-      <td>TB</td>
-      <td>Layout direction of graph: 'TB' | 'BT' | 'LR' | 'RL'</td>
+      <td>config</td>
+      <td>object</td>
+      <td></td>
+      <td>See configuration options <a href='https://github.com/dagrejs/dagre/wiki#configuring-the-layout'>here</a></td>
     </tr>
     <tr>
       <td>animate</td>
@@ -147,24 +155,24 @@ path {
 
 ### Node Object
 
-```javascript
-{
-  id: string,
-	label: string,
-	class?: string,
-	labelType?: 'html' | 'svg' | 'string'
-}
+```typescript
+  {
+    id: string,
+    label: string,
+    class?: string,
+    labelType?: 'html' | 'svg' | 'string'
+  }
 ```
 
 ### Link Object
 
-```javascript
-{
-  source: any
-	target: any
-	class?: string
-  label?: string
-}
+```typescript
+  {
+    source: any,
+    target: any,
+    class?: string,
+    label?: string
+  }
 ```
 
 ## Neo4j Example

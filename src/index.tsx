@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react'
-import dagreD3 from 'dagre-d3'
+import dagreD3, { GraphLabel } from 'dagre-d3'
 import * as d3 from 'd3'
 
 interface GraphProps {
@@ -9,14 +9,13 @@ interface GraphProps {
 	fitBoundaries?: boolean
 	height?: string
 	width?: string
-	rankdir?: rankdir
+	config?: GraphLabel
 	animate?: number
 	className?: string
 	shape?: shapes
 	onNodeClick?: Function
 	onRelationshipClick?: Function
 }
-type rankdir = 'TB' | 'BT' | 'LR' | 'RL'
 type shapes = 'rect' | 'circle' | 'ellipse'
 type labelType = 'html' | 'svg' | 'string'
 
@@ -42,7 +41,6 @@ class DagreGraph extends Component<GraphProps> {
 	innerG = createRef<SVGSVGElement>()
 
 	static defaultProps = {
-		rankdir: 'TB',
 		zoomable: false,
 		fitBoundaries: false,
 		className: 'dagre-d3-react'
@@ -59,10 +57,22 @@ class DagreGraph extends Component<GraphProps> {
 	}
 
 	_drawChart = () => {
-		const { nodes, links, zoomable, fitBoundaries, rankdir, animate, shape, onNodeClick, onRelationshipClick } = this.props
-		let g = new dagreD3.graphlib.Graph().setGraph({ rankdir })
+		const {
+			nodes,
+			links,
+			zoomable,
+			fitBoundaries,
+			config,
+			animate,
+			shape,
+			onNodeClick,
+			onRelationshipClick
+		} = this.props
+		let g = new dagreD3.graphlib.Graph().setGraph(config || {})
 
-		nodes.forEach(node => g.setNode(node.id, { label: node.label, class: node.class || '', labelType: node.labelType || 'string' }))
+		nodes.forEach(node =>
+			g.setNode(node.id, { label: node.label, class: node.class || '', labelType: node.labelType || 'string' })
+		)
 
 		if (shape) {
 			g.nodes().forEach(v => (g.node(v).shape = shape))
