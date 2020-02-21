@@ -160,7 +160,8 @@ path {
     id: string,
     label: string,
     class?: string,
-    labelType?: 'html' | 'svg' | 'string'
+    labelType?: 'html' | 'svg' | 'string',
+    config: object
   }
 ```
 
@@ -171,7 +172,8 @@ path {
     source: any,
     target: any,
     class?: string,
-    label?: string
+    label?: string,
+    config?: object
   }
 ```
 
@@ -211,11 +213,22 @@ let data = {
     {
       id: "2",
       label: "<h3>Node 2</h3>",
-      labelType: "html"
+      labelType: "html",
+      config: {
+			  style: 'fill: #afa'
+		  }
     }
   ],
   links: [
-    { source: '1', target: '2', label: 'TO' },
+    {
+      source: '1',
+      target: '2',
+      label: 'TO',
+      config: {
+			  arrowheadStyle: 'display: none',
+			  curve: d3.curveBasis
+      }
+    },
   ]
 }
 

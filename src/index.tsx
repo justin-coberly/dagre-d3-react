@@ -24,12 +24,14 @@ type d3Node = {
 	label: string
 	class?: string
 	labelType?: labelType
+	config?: object
 }
 type d3Link = {
 	source: string
 	target: string
 	class?: string
 	label?: string
+	config?: object
 }
 type Relationship = {
 	v: any
@@ -69,16 +71,24 @@ class DagreGraph extends Component<GraphProps> {
 			onRelationshipClick
 		} = this.props
 		let g = new dagreD3.graphlib.Graph().setGraph(config || {})
+		console.log('hell')
 
 		nodes.forEach(node =>
-			g.setNode(node.id, { label: node.label, class: node.class || '', labelType: node.labelType || 'string' })
+			g.setNode(node.id, {
+				label: node.label,
+				class: node.class || '',
+				labelType: node.labelType || 'string',
+				...node.config
+			})
 		)
 
 		if (shape) {
 			g.nodes().forEach(v => (g.node(v).shape = shape))
 		}
 
-		links.forEach(link => g.setEdge(link.source, link.target, { label: link.label || '', class: link.class || '' }))
+		links.forEach(link =>
+			g.setEdge(link.source, link.target, { label: link.label || '', class: link.class || '', ...link.config })
+		)
 
 		let render = new dagreD3.render()
 		let svg: any = d3.select(this.svg.current)

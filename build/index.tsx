@@ -36,6 +36,17 @@ function __extends(d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function commonjsRequire () {
@@ -34191,13 +34202,18 @@ var DagreGraph = /** @class */ (function (_super) {
         _this.svg = React.createRef();
         _this.innerG = React.createRef();
         _this._drawChart = function () {
-            var _a = _this.props, nodes = _a.nodes, links = _a.links, zoomable = _a.zoomable, fitBoundaries = _a.fitBoundaries, rankdir = _a.rankdir, animate = _a.animate, shape = _a.shape, onNodeClick = _a.onNodeClick, onRelationshipClick = _a.onRelationshipClick;
-            var g = new dagreD3.graphlib.Graph().setGraph({ rankdir: rankdir });
-            nodes.forEach(function (node) { return g.setNode(node.id, { label: node.label, class: node.class || '', labelType: node.labelType || 'string' }); });
+            var _a = _this.props, nodes = _a.nodes, links = _a.links, zoomable = _a.zoomable, fitBoundaries = _a.fitBoundaries, config = _a.config, animate = _a.animate, shape = _a.shape, onNodeClick = _a.onNodeClick, onRelationshipClick = _a.onRelationshipClick;
+            var g = new dagreD3.graphlib.Graph().setGraph(config || {});
+            console.log('hell');
+            nodes.forEach(function (node) {
+                return g.setNode(node.id, __assign({ label: node.label, class: node.class || '', labelType: node.labelType || 'string' }, node.config));
+            });
             if (shape) {
                 g.nodes().forEach(function (v) { return (g.node(v).shape = shape); });
             }
-            links.forEach(function (link) { return g.setEdge(link.source, link.target, { label: link.label || '', class: link.class || '' }); });
+            links.forEach(function (link) {
+                return g.setEdge(link.source, link.target, __assign({ label: link.label || '', class: link.class || '' }, link.config));
+            });
             var render = new dagreD3.render();
             var svg = select$1(_this.svg.current);
             var inner = select$1(_this.innerG.current);
@@ -34269,7 +34285,6 @@ var DagreGraph = /** @class */ (function (_super) {
             React__default.createElement("g", { ref: this.innerG })));
     };
     DagreGraph.defaultProps = {
-        rankdir: 'TB',
         zoomable: false,
         fitBoundaries: false,
         className: 'dagre-d3-react'

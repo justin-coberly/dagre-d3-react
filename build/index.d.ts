@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { GraphLabel } from 'dagre-d3';
 interface GraphProps {
     nodes: d3Node[];
     links: d3Link[];
@@ -6,14 +7,13 @@ interface GraphProps {
     fitBoundaries?: boolean;
     height?: string;
     width?: string;
-    rankdir?: rankdir;
+    config?: GraphLabel;
     animate?: number;
     className?: string;
     shape?: shapes;
     onNodeClick?: Function;
     onRelationshipClick?: Function;
 }
-declare type rankdir = 'TB' | 'BT' | 'LR' | 'RL';
 declare type shapes = 'rect' | 'circle' | 'ellipse';
 declare type labelType = 'html' | 'svg' | 'string';
 declare type d3Node = {
@@ -21,18 +21,19 @@ declare type d3Node = {
     label: string;
     class?: string;
     labelType?: labelType;
+    config?: object;
 };
 declare type d3Link = {
     source: string;
     target: string;
     class?: string;
     label?: string;
+    config?: object;
 };
 declare class DagreGraph extends Component<GraphProps> {
     svg: React.RefObject<SVGSVGElement>;
     innerG: React.RefObject<SVGSVGElement>;
     static defaultProps: {
-        rankdir: string;
         zoomable: boolean;
         fitBoundaries: boolean;
         className: string;
