@@ -161,7 +161,7 @@ path {
     label: string,
     class?: string,
     labelType?: 'html' | 'svg' | 'string',
-    config: object
+    config?: object
   }
 ```
 
