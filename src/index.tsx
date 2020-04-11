@@ -9,6 +9,7 @@ interface GraphProps {
 	fitBoundaries?: boolean
 	height?: string
 	width?: string
+	multigraph?: boolean
 	config?: GraphLabel
 	animate?: number
 	className?: string
@@ -31,6 +32,7 @@ type d3Link = {
 	target: string
 	class?: string
 	label?: string
+	name?: string
 	config?: object
 }
 type Relationship = {
@@ -64,14 +66,14 @@ class DagreGraph extends Component<GraphProps> {
 			links,
 			zoomable,
 			fitBoundaries,
+			multigraph,
 			config,
 			animate,
 			shape,
 			onNodeClick,
 			onRelationshipClick
 		} = this.props
-		let g = new dagreD3.graphlib.Graph().setGraph(config || {})
-		console.log('hell')
+		let g = new dagreD3.graphlib.Graph({multigraph: multigraph}).setGraph(config || {})
 
 		nodes.forEach(node =>
 			g.setNode(node.id, {
@@ -87,7 +89,7 @@ class DagreGraph extends Component<GraphProps> {
 		}
 
 		links.forEach(link =>
-			g.setEdge(link.source, link.target, { label: link.label || '', class: link.class || '', ...link.config })
+			g.setEdge(link.source, link.target, { label: link.label || '', class: link.class || '', ...link.config }, link.name)
 		)
 
 		let render = new dagreD3.render()
