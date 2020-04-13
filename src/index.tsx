@@ -110,7 +110,7 @@ class DagreGraph extends Component<GraphProps> {
 		if (fitBoundaries) {
 			//@BertCh recommendation for fitting boundaries
 			const bounds = inner.node().getBBox()
-			const parent = inner.node().parentElement
+			const parent = inner.node().parentElement || inner.node().parentNode
 			const fullWidth = parent.clientWidth || parent.parentNode.clientWidth
 			const fullHeight = parent.clientHeight || parent.parentNode.clientHeight
 			const width = bounds.width
