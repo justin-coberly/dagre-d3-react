@@ -45,7 +45,7 @@ class DagreGraph extends Component<GraphProps> {
 	static defaultProps = {
 		zoomable: false,
 		fitBoundaries: false,
-		className: 'dagre-d3-react'
+		className: 'dagre-d3-react',
 	}
 	componentDidMount() {
 		this._drawChart()
@@ -55,7 +55,7 @@ class DagreGraph extends Component<GraphProps> {
 	}
 
 	_getNodeData(id: any) {
-		return this.props.nodes.find(node => node.id === id)
+		return this.props.nodes.find((node) => node.id === id)
 	}
 
 	_drawChart = () => {
@@ -68,25 +68,24 @@ class DagreGraph extends Component<GraphProps> {
 			animate,
 			shape,
 			onNodeClick,
-			onRelationshipClick
+			onRelationshipClick,
 		} = this.props
 		let g = new dagreD3.graphlib.Graph().setGraph(config || {})
-		console.log('hell')
 
-		nodes.forEach(node =>
+		nodes.forEach((node) =>
 			g.setNode(node.id, {
 				label: node.label,
 				class: node.class || '',
 				labelType: node.labelType || 'string',
-				...node.config
+				...node.config,
 			})
 		)
 
 		if (shape) {
-			g.nodes().forEach(v => (g.node(v).shape = shape))
+			g.nodes().forEach((v) => (g.node(v).shape = shape))
 		}
 
-		links.forEach(link =>
+		links.forEach((link) =>
 			g.setEdge(link.source, link.target, { label: link.label || '', class: link.class || '', ...link.config })
 		)
 
@@ -146,7 +145,7 @@ class DagreGraph extends Component<GraphProps> {
 					d3source: _source,
 					source: _original_source,
 					d3target: _target,
-					target: _original_target
+					target: _original_target,
 				})
 			})
 		}

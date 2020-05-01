@@ -34204,7 +34204,6 @@ var DagreGraph = /** @class */ (function (_super) {
         _this._drawChart = function () {
             var _a = _this.props, nodes = _a.nodes, links = _a.links, zoomable = _a.zoomable, fitBoundaries = _a.fitBoundaries, config = _a.config, animate = _a.animate, shape = _a.shape, onNodeClick = _a.onNodeClick, onRelationshipClick = _a.onRelationshipClick;
             var g = new dagreD3.graphlib.Graph().setGraph(config || {});
-            console.log('hell');
             nodes.forEach(function (node) {
                 return g.setNode(node.id, __assign({ label: node.label, class: node.class || '', labelType: node.labelType || 'string' }, node.config));
             });
@@ -34264,7 +34263,7 @@ var DagreGraph = /** @class */ (function (_super) {
                         d3source: _source,
                         source: _original_source,
                         d3target: _target,
-                        target: _original_target
+                        target: _original_target,
                     });
                 });
             }
@@ -34287,7 +34286,7 @@ var DagreGraph = /** @class */ (function (_super) {
     DagreGraph.defaultProps = {
         zoomable: false,
         fitBoundaries: false,
-        className: 'dagre-d3-react'
+        className: 'dagre-d3-react',
     };
     return DagreGraph;
 }(React.Component));

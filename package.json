@@ -1,6 +1,6 @@
 {
 	"name": "dagre-d3-react",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"description": "React component for Dagre-D3 rendering library",
 	"main": "build/index.tsx",
 	"types": "build/index.d.ts",
