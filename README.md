@@ -28,7 +28,7 @@ ReactDOM.render(
 		<DagreGraph
 			nodes={nodes}
 			links={links}
-			options={{
+			config={{
 				rankdir: 'LR',
 				align: 'UL',
 				ranker: 'tight-tree'
@@ -226,7 +226,8 @@ let data = {
       label: 'TO',
       config: {
 			  arrowheadStyle: 'display: none',
-			  curve: d3.curveBasis
+			  curve: d3.curveBasis,
+			  style: 'fill:none'
       }
     },
   ]
