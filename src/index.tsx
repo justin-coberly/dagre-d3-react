@@ -135,7 +135,7 @@ class DagreGraph extends Component<GraphProps> {
 			})
 		}
 		if (onRelationshipClick) {
-			svg.selectAll('g.edgeLabel').on('click', (id: Relationship) => {
+			svg.selectAll('g.edgeLabel, g.edgePath').on('click', (id: Relationship) => {
 				let _source = g.node(id.v)
 				let _original_source = this._getNodeData(id.v)
 
