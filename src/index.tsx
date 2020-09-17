@@ -5,6 +5,7 @@ import * as d3 from 'd3'
 interface GraphProps {
 	nodes: d3Node[]
 	links: d3Link[]
+	parents?: parent[]
 	zoomable?: boolean
 	fitBoundaries?: boolean
 	height?: string
@@ -32,6 +33,10 @@ type d3Link = {
 	class?: string
 	label?: string
 	config?: object
+}
+type parent = {
+	parentNode: string
+	childNode: string
 }
 type Relationship = {
 	v: any
@@ -62,6 +67,7 @@ class DagreGraph extends Component<GraphProps> {
 		const {
 			nodes,
 			links,
+			parents,
 			zoomable,
 			fitBoundaries,
 			config,
@@ -70,7 +76,8 @@ class DagreGraph extends Component<GraphProps> {
 			onNodeClick,
 			onRelationshipClick,
 		} = this.props
-		let g = new dagreD3.graphlib.Graph().setGraph(config || {})
+		const opt = {compound: config && config.compound ? config.compound : undefined};
+		let g = new dagreD3.graphlib.Graph(opt).setGraph(config || {})
 
 		nodes.forEach((node) =>
 			g.setNode(node.id, {
@@ -80,6 +87,9 @@ class DagreGraph extends Component<GraphProps> {
 				...node.config,
 			})
 		)
+		if (parents){
+			parents.forEach(parent => g.setParent(parent.parentNode, parent.childNode));
+		}
 
 		if (shape) {
 			g.nodes().forEach((v) => (g.node(v).shape = shape))
